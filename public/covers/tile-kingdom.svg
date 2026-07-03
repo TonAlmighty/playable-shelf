@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Tile Kingdom cover</title>
+  <desc id="desc">Colorful puzzle tiles and a crown.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15c8ff"/>
+      <stop offset="0.52" stop-color="#ffe05c"/>
+      <stop offset="1" stop-color="#ff6b35"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#5b2500" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <path d="M0 650 C160 560 280 680 430 600 C560 530 690 545 800 490 L800 1000 L0 1000 Z" fill="#fff6d5" opacity="0.95"/>
+  <g filter="url(#shadow)">
+    <rect x="130" y="350" width="150" height="150" rx="28" fill="#ffffff"/>
+    <rect x="325" y="330" width="150" height="150" rx="28" fill="#ff4f81"/>
+    <rect x="520" y="350" width="150" height="150" rx="28" fill="#ffffff"/>
+    <rect x="220" y="545" width="150" height="150" rx="28" fill="#36b37e"/>
+    <rect x="415" y="545" width="150" height="150" rx="28" fill="#00a8ff"/>
+  </g>
+  <path d="M260 245 L325 130 L400 250 L475 130 L540 245 L512 300 L288 300 Z" fill="#ffcf33" stroke="#7a3d00" stroke-width="18" stroke-linejoin="round"/>
+  <circle cx="325" cy="128" r="30" fill="#fff1a3"/>
+  <circle cx="475" cy="128" r="30" fill="#fff1a3"/>
+  <text x="400" y="825" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="900" fill="#1f2937">TILE</text>
+  <text x="400" y="900" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="70" font-weight="900" fill="#ff7a00">KINGDOM</text>
+</svg>

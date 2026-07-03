@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Garden Chef Playable</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: #064e3b; color: #123527; display: grid; place-items: center; }
+    .game { width: min(100vw, 430px); min-height: 100vh; padding: 22px; background: linear-gradient(180deg, #e7fff2, #36b37e); display: flex; flex-direction: column; gap: 18px; }
+    .top { display: flex; justify-content: space-between; align-items: center; }
+    .title { font-size: 30px; font-weight: 900; line-height: .95; }
+    .timer { border-radius: 999px; background: #123527; color: white; padding: 10px 14px; font-weight: 900; }
+    .plate { display: grid; place-items: center; min-height: 240px; border-radius: 30px; background: #fff6d9; border: 10px solid #ffe0ad; box-shadow: inset 0 0 0 10px rgba(255,255,255,.45); }
+    .plate span { font-size: 42px; font-weight: 900; color: #36b37e; }
+    .order { border-radius: 18px; background: white; padding: 14px; font-weight: 900; }
+    .ingredients { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: auto; }
+    button { border: 0; border-radius: 18px; padding: 22px 8px; font-size: 18px; font-weight: 900; color: #123527; box-shadow: 0 8px 0 rgba(0,0,0,.14); }
+    button:active { transform: translateY(6px); box-shadow: 0 2px 0 rgba(0,0,0,.14); }
+    .win { display: none; position: fixed; inset: 0; place-items: center; background: rgba(6,78,59,.78); color: white; text-align: center; padding: 24px; }
+    .win.show { display: grid; }
+    .win div { max-width: 320px; border-radius: 24px; background: #36b37e; padding: 28px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <section class="top">
+      <div class="title">Garden<br>Chef</div>
+      <div class="timer">0 / 4</div>
+    </section>
+    <div class="order">Order: tomato, corn, leaf, pepper</div>
+    <section class="plate"><span>EMPTY</span></section>
+    <section class="ingredients">
+      <button type="button" style="background:#ff5a5f">TOMATO</button>
+      <button type="button" style="background:#ffcf33">CORN</button>
+      <button type="button" style="background:#75e0a7">LEAF</button>
+      <button type="button" style="background:#ff8a00">PEPPER</button>
+    </section>
+  </main>
+  <section class="win" aria-live="polite"><div><h1>Plate ready</h1><p>The order is complete and ready to serve.</p></div></section>
+  <script>
+    const variant = new URLSearchParams(location.search).get("variant") || "harvest";
+    const timer = document.querySelector(".timer");
+    const plate = document.querySelector(".plate span");
+    const order = document.querySelector(".order");
+    const win = document.querySelector(".win");
+    const labels = variant === "combo" ? ["TOMATO", "CORN", "CORN", "LEAF"] : variant === "timer" ? ["PEPPER", "TOMATO", "LEAF", "CORN"] : ["TOMATO", "CORN", "LEAF", "PEPPER"];
+    let step = 0;
+    order.textContent = "Order: " + labels.join(", ").toLowerCase();
+    document.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.textContent === labels[step]) {
+          step += 1;
+          plate.textContent = labels[Math.max(0, step - 1)];
+          timer.textContent = step + " / " + labels.length;
+          if (step >= labels.length) win.classList.add("show");
+        } else {
+          plate.textContent = "TRY";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

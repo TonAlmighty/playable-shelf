@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Merge Masters Playable</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: #111827; color: white; display: grid; place-items: center; }
+    .game { width: min(100vw, 430px); min-height: 100vh; padding: 22px; background: linear-gradient(180deg, #ff4f81, #7c3aed 58%, #111827); display: flex; flex-direction: column; gap: 18px; }
+    .top { display: flex; justify-content: space-between; align-items: center; }
+    .title { font-size: 30px; font-weight: 900; line-height: .95; }
+    .level { border-radius: 999px; background: white; color: #111827; padding: 10px 14px; font-weight: 900; }
+    .arena { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: end; min-height: 310px; }
+    .unit { border: 0; min-height: 170px; border-radius: 20px; background: #fff7ed; color: #111827; font-size: 18px; font-weight: 900; box-shadow: 0 12px 0 rgba(0,0,0,.18); }
+    .unit:nth-child(2) { min-height: 230px; background: #e0f2fe; }
+    .unit:nth-child(3) { background: #fef9c3; }
+    .bench { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: auto; }
+    .merge { border: 0; border-radius: 18px; padding: 18px; background: white; color: #111827; font-weight: 900; }
+    .attack { border: 0; border-radius: 18px; padding: 18px; background: #ffcf33; color: #111827; font-weight: 900; }
+    .win { display: none; position: fixed; inset: 0; place-items: center; background: rgba(17,24,39,.82); text-align: center; padding: 24px; }
+    .win.show { display: grid; }
+    .win div { max-width: 320px; border-radius: 24px; background: #ff4f81; padding: 28px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <section class="top">
+      <div class="title">Merge<br>Masters</div>
+      <div class="level">Lv 1</div>
+    </section>
+    <section class="arena" aria-label="Merge arena">
+      <button class="unit" type="button">UNIT 1</button>
+      <button class="unit" type="button">UNIT 1</button>
+      <button class="unit" type="button">LOCKED</button>
+    </section>
+    <section class="bench">
+      <button class="merge" type="button">MERGE</button>
+      <button class="attack" type="button">ATTACK</button>
+    </section>
+  </main>
+  <section class="win" aria-live="polite"><div><h1>Battle won</h1><p>Your merged squad cleared the stage.</p></div></section>
+  <script>
+    const variant = new URLSearchParams(location.search).get("variant") || "unit";
+    const level = document.querySelector(".level");
+    const units = Array.from(document.querySelectorAll(".unit"));
+    const win = document.querySelector(".win");
+    let current = variant === "battle" ? 2 : 1;
+    function render() {
+      level.textContent = "Lv " + current;
+      units[0].textContent = "UNIT " + current;
+      units[1].textContent = current > 1 ? "UNIT " + current : "UNIT 1";
+      units[2].textContent = current > 2 ? "BOSS" : variant === "shop" ? "SHOP" : "LOCKED";
+    }
+    render();
+    document.querySelector(".merge").addEventListener("click", () => {
+      current += 1;
+      render();
+      if (current >= 4) win.classList.add("show");
+    });
+    document.querySelector(".attack").addEventListener("click", () => {
+      if (current >= 3) win.classList.add("show");
+      else current += 1;
+      render();
+    });
+  </script>
+</body>
+</html>
