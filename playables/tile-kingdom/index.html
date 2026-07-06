@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tile Kingdom Playable</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: #1f2937; color: #1f2937; display: grid; place-items: center; }
+    .game { width: min(100vw, 430px); min-height: 100vh; padding: 22px; background: linear-gradient(180deg, #34d3ff, #ffe16a 54%, #ff8a00); display: flex; flex-direction: column; gap: 18px; }
+    .top { display: flex; justify-content: space-between; align-items: center; color: white; text-shadow: 0 2px 8px rgba(0,0,0,.22); }
+    .title { font-size: 30px; font-weight: 900; line-height: .95; }
+    .score { border: 3px solid rgba(255,255,255,.65); border-radius: 16px; padding: 8px 12px; font-weight: 900; background: rgba(255,255,255,.2); }
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: auto; }
+    button.tile { aspect-ratio: 1; border: 0; border-radius: 18px; font-size: 22px; font-weight: 900; color: #1f2937; box-shadow: 0 8px 0 rgba(0,0,0,.18); transition: transform .12s ease, box-shadow .12s ease; }
+    button.tile:active { transform: translateY(7px); box-shadow: 0 1px 0 rgba(0,0,0,.18); }
+    .cta { margin-top: auto; border: 0; border-radius: 18px; padding: 18px; background: #1f2937; color: white; font-size: 18px; font-weight: 900; }
+    .hint { border-radius: 18px; background: rgba(255,255,255,.8); padding: 14px; font-weight: 800; }
+    .win { display: none; position: fixed; inset: 0; place-items: center; background: rgba(31,41,55,.8); color: white; text-align: center; padding: 24px; }
+    .win.show { display: grid; }
+    .win div { max-width: 320px; border-radius: 24px; background: #ff8a00; padding: 28px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <section class="top">
+      <div class="title">Tile<br>Kingdom</div>
+      <div class="score">0 / 120</div>
+    </section>
+    <div class="hint">Match bright tiles to fill the chest.</div>
+    <section class="board" aria-label="Tile board"></section>
+    <button class="cta" type="button">Claim reward</button>
+  </main>
+  <section class="win" aria-live="polite"><div><h1>Reward ready</h1><p>You cleared the board and opened the chest.</p></div></section>
+  <script>
+    const variant = new URLSearchParams(location.search).get("variant") || "chest";
+    const colors = ["#ffffff", "#ff4f81", "#36b37e", "#00a8ff", "#ffcf33", "#fff7ed"];
+    const labels = variant === "booster" ? ["2X", "BOOM", "GEM", "WILD"] : variant === "fail" ? ["FIX", "TAP", "WIN", "GEM"] : ["GEM", "KEY", "CUP", "STAR"];
+    const board = document.querySelector(".board");
+    const scoreEl = document.querySelector(".score");
+    const win = document.querySelector(".win");
+    let score = 0;
+    for (let i = 0; i < 16; i += 1) {
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "tile";
+      tile.textContent = labels[i % labels.length];
+      tile.style.background = colors[i % colors.length];
+      tile.addEventListener("click", () => {
+        if (tile.disabled) return;
+        tile.disabled = true;
+        tile.style.opacity = ".4";
+        score += variant === "booster" ? 15 : 10;
+        scoreEl.textContent = Math.min(score, 120) + " / 120";
+        if (score >= 120) win.classList.add("show");
+      });
+      board.appendChild(tile);
+    }
+    document.querySelector(".cta").addEventListener("click", () => win.classList.add("show"));
+  </script>
+</body>
+</html>

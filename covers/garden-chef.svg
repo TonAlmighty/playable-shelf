@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Garden Chef cover</title>
+  <desc id="desc">Fresh vegetables on a kitchen board.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7fff2"/>
+      <stop offset="0.58" stop-color="#36b37e"/>
+      <stop offset="1" stop-color="#005f49"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="16" flood-color="#003829" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect x="100" y="250" width="600" height="430" rx="40" fill="#ffe0ad" filter="url(#shadow)"/>
+  <rect x="148" y="300" width="504" height="330" rx="26" fill="#fff6d9"/>
+  <circle cx="250" cy="430" r="82" fill="#ff5a5f"/>
+  <path d="M250 340 C230 290 285 292 275 340 Z" fill="#1f8a5f"/>
+  <circle cx="405" cy="450" r="78" fill="#ffcf33"/>
+  <path d="M350 397 C420 310 505 388 450 486 C404 552 318 482 350 397 Z" fill="#ff8a00"/>
+  <path d="M515 368 C600 335 648 422 590 492 C540 552 466 478 495 410 Z" fill="#36b37e"/>
+  <path d="M534 345 C512 302 568 292 570 340 Z" fill="#8ddfba"/>
+  <text x="400" y="824" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="900" fill="#ffffff">GARDEN</text>
+  <text x="400" y="897" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="70" font-weight="900" fill="#fff2b8">CHEF</text>
+</svg>

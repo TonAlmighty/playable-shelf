@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rocket Rescue Playable</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Arial, Helvetica, sans-serif; background: #0f172a; color: white; display: grid; place-items: center; }
+    .game { position: relative; overflow: hidden; width: min(100vw, 430px); min-height: 100vh; padding: 22px; background: linear-gradient(180deg, #101828, #1849a9 58%, #00a8ff); }
+    .hud { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; }
+    .title { font-size: 30px; font-weight: 900; line-height: .95; }
+    .score { border-radius: 999px; padding: 10px 14px; background: rgba(255,255,255,.16); border: 2px solid rgba(255,255,255,.35); font-weight: 900; }
+    .track { position: absolute; inset: 115px 26px 120px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .lane { border-radius: 24px; background: rgba(255,255,255,.12); border: 2px solid rgba(255,255,255,.1); }
+    .rocket { position: absolute; bottom: 150px; left: calc(50% - 35px); width: 70px; height: 120px; transition: left .18s ease; z-index: 3; }
+    .rocket:before { content: ""; position: absolute; inset: 0; border-radius: 50% 50% 44% 44%; background: white; }
+    .rocket:after { content: ""; position: absolute; left: 20px; bottom: -48px; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 54px solid #ff8a00; }
+    .window { position: absolute; left: 18px; top: 32px; width: 34px; height: 34px; border-radius: 50%; background: #00a8ff; border: 6px solid #101828; z-index: 4; }
+    .obstacle { position: absolute; top: 210px; left: 30px; right: 30px; height: 70px; border-radius: 18px; background: #ff4f81; display: grid; place-items: center; font-weight: 900; animation: fall 1.4s infinite linear; }
+    @keyframes fall { from { transform: translateY(-110px); } to { transform: translateY(560px); } }
+    .controls { position: absolute; left: 22px; right: 22px; bottom: 24px; z-index: 4; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    button { border: 0; border-radius: 16px; padding: 16px 8px; background: white; color: #101828; font-weight: 900; }
+    .win { display: none; position: fixed; inset: 0; place-items: center; background: rgba(15,23,42,.82); text-align: center; padding: 24px; }
+    .win.show { display: grid; }
+    .win div { max-width: 320px; border-radius: 24px; background: #00a8ff; padding: 28px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <section class="hud">
+      <div class="title">Rocket<br>Rescue</div>
+      <div class="score">0 / 5</div>
+    </section>
+    <section class="track" aria-hidden="true"><div class="lane"></div><div class="lane"></div><div class="lane"></div></section>
+    <div class="obstacle">ASTEROID</div>
+    <div class="rocket"><span class="window"></span></div>
+    <section class="controls">
+      <button type="button" data-lane="0">LEFT</button>
+      <button type="button" data-lane="1">BOOST</button>
+      <button type="button" data-lane="2">RIGHT</button>
+    </section>
+  </main>
+  <section class="win" aria-live="polite"><div><h1>Rescue complete</h1><p>The rocket reached the safe zone.</p></div></section>
+  <script>
+    const variant = new URLSearchParams(location.search).get("variant") || "asteroid";
+    const rocket = document.querySelector(".rocket");
+    const score = document.querySelector(".score");
+    const obstacle = document.querySelector(".obstacle");
+    const win = document.querySelector(".win");
+    const names = { asteroid: "ASTEROID", fuel: "FUEL", boss: "BOSS" };
+    let points = 0;
+    obstacle.textContent = names[variant] || "ASTEROID";
+    document.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const lane = Number(button.dataset.lane);
+        rocket.style.left = lane === 0 ? "13%" : lane === 2 ? "70%" : "calc(50% - 35px)";
+        points += variant === "fuel" ? 2 : 1;
+        score.textContent = Math.min(points, 5) + " / 5";
+        if (points >= 5) win.classList.add("show");
+      });
+    });
+  </script>
+</body>
+</html>
