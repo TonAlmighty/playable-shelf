@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Game } from "@/app/data/showcase";
 import { genres } from "@/app/data/showcase";
+import { withBasePath } from "@/app/lib/paths";
 
 type GameGalleryProps = {
   games: Game[];
@@ -73,7 +74,7 @@ export function GameGallery({ games }: GameGalleryProps) {
           >
             <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-zinc-100">
               <Image
-                src={game.cover}
+                src={withBasePath(game.cover)}
                 alt={`${game.title} cover`}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"

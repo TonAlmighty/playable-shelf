@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { Game, Playable } from "@/app/data/showcase";
+import { withBasePath } from "@/app/lib/paths";
 
 type PlayableGridProps = {
   game: Game;
@@ -119,7 +120,7 @@ export function PlayableGrid({ game }: PlayableGridProps) {
 
               <iframe
                 key={selectedPlayable.id}
-                src={selectedPlayable.file}
+                src={withBasePath(selectedPlayable.file)}
                 title={`${game.title} ${selectedPlayable.title}`}
                 className="min-h-0 flex-1 border-0 bg-white"
                 allow="autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; accelerometer"

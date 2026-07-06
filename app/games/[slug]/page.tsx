@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PlayableGrid } from "@/app/components/PlayableGrid";
 import { games, getGame } from "@/app/data/showcase";
+import { withBasePath } from "@/app/lib/paths";
 
 type GamePageProps = {
   params: Promise<{
@@ -62,7 +63,7 @@ export default async function GamePage({ params }: GamePageProps) {
       <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[minmax(260px,380px)_1fr] lg:px-8">
         <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
           <Image
-            src={game.cover}
+            src={withBasePath(game.cover)}
             alt={`${game.title} cover`}
             fill
             sizes="(min-width: 768px) 380px, 100vw"
